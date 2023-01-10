@@ -177,55 +177,6 @@ if __name__=="__main__":
                 t2_b1=n.layers[0].bias.flatten().copy()
                 t2_b2=n.layers[2].bias.flatten().copy()
                 t2_b3=n.layers[4].bias.flatten().copy()
-
-                #crossover would result in
-                #A1-B2
-                #A2-B1
-                temp=t_n1[40:].copy()
-                t_n1[40:],t2_n1[40:]=t2_n1[40:],temp
-                temp2=t_n2[30:].copy()
-                t_n2[30:],t2_n2[30:]=t2_n2[30:],temp2
-                temp3=t_n3[3:].copy()
-                t_n3[3:],t2_n3[3:]=t2_n3[3:],temp3
-                temp4=t_b1[5:].copy()#bias FClayer1
-                t_b1[5:],t2_b1[5:]=t2_b1[5:],temp4
-                temp5=t_b2[3:].copy()#bias FClayer2
-                t_b2[3:],t2_b2[3:]=t2_b2[3:],temp5
-
-                #converting back to 2D array
-                t_net3.layers[0].weights=np.reshape(t_n1,(8,10))
-                t_net3.layers[2].weights=np.reshape(t_n2,(10,6))
-                t_net3.layers[4].weights=np.reshape(t_n3,(6,1))
-                t_net3.layers[0].bias=np.reshape(t_b1,(1,10))
-                t_net3.layers[2].bias=np.reshape(t_b2,(1,6))
-                t_net3.layers[4].bias=np.reshape(t_b3,(1,1))
-
-                t_net4.layers[0].weights=np.reshape(t2_n1,(8,10))
-                t_net4.layers[2].weights=np.reshape(t2_n2,(10,6))
-                t_net4.layers[4].weights=np.reshape(t2_n3,(6,1))
-                t_net4.layers[0].bias=np.reshape(t2_b1,(1,10))
-                t_net4.layers[2].bias=np.reshape(t2_b2,(1,6))
-                t_net4.layers[4].bias=np.reshape(t2_b3,(1,1))
-
-                #mutation
-                #----in weights
-                t_net3.layers[0].weights[random.randint(0,7)][:5]=np.random.rand(1,5).flatten()-0.5
-                t_net3.layers[2].weights[random.randint(0,9)][:3]=np.random.rand(1,3).flatten()-0.5
-                t_net3.layers[4].weights[random.randint(0,5)][0]=random.random()-0.5
-                
-                t_net4.layers[0].weights[random.randint(0,7)]=np.random.rand(1,10).flatten()-0.5
-                t_net4.layers[2].weights[random.randint(0,9)]=np.random.rand(1,6).flatten()-0.5
-                
-                #---in bias
-                t_net3.layers[0].bias[0][random.randint(0,9)]=random.random()-0.5
-                t_net3.layers[2].bias[0][random.randint(0,5)]=random.random()-0.5
-                t_net3.layers[4].bias[0][0]+=smallNo[random.randint(0,1)]
-                t_net4.layers[0].bias[0][random.randint(0,9)]=random.random()-0.5
-                t_net4.layers[2].bias[0][random.randint(0,5)]=random.random()-0.5
-                
-                t_network.append(t_net3)
-                t_network.append(t_net4)
-
         return t_network
 
 
@@ -236,7 +187,7 @@ if __name__=="__main__":
         if len(dinasours)==0:
             dinasours=[dinasour(RUNNING[0]) for i in range(200)]
             dinosours_network = repopulate(temp_nets[193:])
-            dinosours_network.extend(temp_nets[196:])
+            dinosours_network.extend(temp_nets[98:])
             #print("Total networks: ",len(dinosours_network))
             game_speed=20
             prev_best=game_point
